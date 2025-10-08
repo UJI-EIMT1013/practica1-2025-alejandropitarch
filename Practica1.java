@@ -32,27 +32,30 @@ public class Practica1 {
         Set<Integer> nuevosCuadrados = new HashSet<>();
         for (int elem : cuadrados) {
             int cuadrado = elem*elem;
-            if(cuadrados.contains(cuadrado)) {
+            if(cuadrados.contains(cuadrado) && cuadrado != elem) {
                 nuevosCuadrados.add(cuadrado);
-                cuadrados.remove(cuadrado);
             }
             if(noCuadrados.contains(cuadrado)){
                 nuevosCuadrados.add(cuadrado);
-                noCuadrados.remove(cuadrado);
             }
         }
         for (int elem : noCuadrados) {
             int cuadrado = elem*elem;
             if(cuadrados.contains(cuadrado)) {
                 nuevosCuadrados.add(cuadrado);
-                cuadrados.remove(cuadrado);
             }
-            if(noCuadrados.contains(cuadrado)){
+            if(noCuadrados.contains(cuadrado) && cuadrado != elem){
                 nuevosCuadrados.add(cuadrado);
-                noCuadrados.remove(cuadrado);
             }
         }
+
         noCuadrados.addAll(cuadrados);
+        Iterator<Integer> it = noCuadrados.iterator();
+        while (it.hasNext()) {
+            int i = it.next();
+            if (nuevosCuadrados.contains(i))
+                it.remove();
+        }
         cuadrados.clear();
         cuadrados.addAll(nuevosCuadrados);
     }
@@ -60,13 +63,13 @@ public class Practica1 {
     //EJERCICIO 3
     public static<T> Collection<Set<T>> divideInSets (Iterator<T> it) {
         Collection<Set<T>> col = new ArrayList<>();
-        Iterator<Set<T>> itCol = col.iterator();
         while (it.hasNext()) {
             boolean contenido = false;
             T elem = it.next();
+            Iterator<Set<T>> itCol = col.iterator();
             while (itCol.hasNext()) {
                 Set<T> s = itCol.next();
-                if (!s.contains(elem)) {
+                if (!s.contains(elem) && !contenido) {
                     s.add(elem);
                     contenido = true;
                 }
@@ -77,8 +80,6 @@ public class Practica1 {
                 col.add(s);
             }
         }
-
-
 
 
         return col;

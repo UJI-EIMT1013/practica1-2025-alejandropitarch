@@ -80,15 +80,31 @@ public class Practica1 {
                 col.add(s);
             }
         }
-
-
         return col;
     }
 
     //EJERCICIO 4
-    public static<T> Collection<Set<T>> coverageSet2 (Set<T> u,ArrayList<Set<T>> col) {
-        //TODO
-        return null;
+    public static<T> Collection<Set<T>> coverageSet2 (Set<T> u, ArrayList<Set<T>> col) {
+        Collection<Set<T>> resultado = new HashSet<>();
+        Iterator<Set<T>> it1 = col.iterator();
+
+        while (it1.hasNext()) {
+            Set<T> elem1 = it1.next();
+            Iterator<Set<T>> it2 = col.iterator();
+            while (it2.hasNext()) {
+                Set<T> union = new HashSet<>();
+                Set<T> elem2 = it2.next();
+                resultado = new HashSet<>();
+                union.addAll(elem1);
+                union.addAll(elem2);
+                if (union.equals(u) && !union.equals(elem1) && !union.equals(elem2)) {
+                    resultado.add(elem1);
+                    resultado.add(elem2);
+                    return resultado;
+                }
+            }
+        }
+        return resultado;
     }
 
 

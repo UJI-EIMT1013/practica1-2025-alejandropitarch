@@ -2,6 +2,8 @@ package practica1;
 
 import java.util.*;
 
+import static java.lang.Math.sqrt;
+
 public class Practica1 {
 
     //EJERCICIO 1
@@ -27,37 +29,32 @@ public class Practica1 {
 
     //EJERCICIO 2
     public static void separate (Set<Integer> cuadrados, Set<Integer> noCuadrados)  {
-        Set<Integer> todos = new HashSet<>(cuadrados);
-        todos.addAll(noCuadrados);
-        Iterator<Integer> itTodos = todos.iterator();
-
-        while (itTodos.hasNext()){
-            int iTodos = itTodos.next();
-            Iterator<Integer> itCuad = cuadrados.iterator();
-            while (itCuad.hasNext()) {
-                int iCuad = itCuad.next();
-                boolean esCuadrado = false;
-                if (iTodos*iTodos == iCuad && iCuad != iTodos) {
-                    esCuadrado = true;
-                }
-                if (!esCuadrado) {
-                    itCuad.remove();
-                    noCuadrados.add(iCuad);
-                }
+        Set<Integer> nuevosCuadrados = new HashSet<>();
+        for (int elem : cuadrados) {
+            int cuadrado = elem*elem;
+            if(cuadrados.contains(cuadrado)) {
+                nuevosCuadrados.add(cuadrado);
+                cuadrados.remove(cuadrado);
             }
-            Iterator<Integer> itNoCuad = noCuadrados.iterator();
-            while (itNoCuad.hasNext()) {
-                int iNoCuad = itNoCuad.next();
-                boolean esCuadrado = false;
-                if (iNoCuad*iNoCuad == iTodos && iNoCuad != iTodos) {
-                    esCuadrado = true;
-                }
-                if (esCuadrado) {
-                    itNoCuad.remove();
-                    cuadrados.add(iNoCuad);
-                }
+            if(noCuadrados.contains(cuadrado)){
+                nuevosCuadrados.add(cuadrado);
+                noCuadrados.remove(cuadrado);
             }
         }
+        for (int elem : noCuadrados) {
+            int cuadrado = elem*elem;
+            if(cuadrados.contains(cuadrado)) {
+                nuevosCuadrados.add(cuadrado);
+                cuadrados.remove(cuadrado);
+            }
+            if(noCuadrados.contains(cuadrado)){
+                nuevosCuadrados.add(cuadrado);
+                noCuadrados.remove(cuadrado);
+            }
+        }
+        noCuadrados.addAll(cuadrados);
+        cuadrados.clear();
+        cuadrados.addAll(nuevosCuadrados);
     }
 
     //EJERCICIO 3
